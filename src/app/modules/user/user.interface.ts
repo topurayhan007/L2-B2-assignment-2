@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TUserFullName = {
   firstName: string;
   lastName: string;
@@ -28,6 +30,8 @@ export type TUser = {
   orders: TUserOrder[];
 };
 
-// export interface UserModel extends Model<TUser> {
-//   isUserExists(id: string): Promise<TUser | null>;
-// }
+// user exist using static
+export interface UserModel extends Model<TUser> {
+  // eslint-disable-next-line no-unused-vars
+  isUserExists(userId: number): Promise<TUser | null>;
+}

@@ -4,7 +4,10 @@ import {
   TUserAddress,
   TUserFullName,
   TUserOrder,
+  UserModel,
 } from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 // User's Sub-schemas
 const userFullNameSchema = new Schema<TUserFullName>({
@@ -41,7 +44,7 @@ const userOrderSchema = new Schema<TUserOrder>({
 });
 
 // User Schema
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: {
     type: Number,
     required: [true, 'User ID is required'],
@@ -73,7 +76,29 @@ const userSchema = new Schema<TUser>({
   orders: { type: [userOrderSchema], required: [true, 'Order is required'] },
 });
 
-// Model defination
-export const User = model<TUser>('User', userSchema);
+// middleware for password hash
+userSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds),
+  );
 
-// export const User = model<TUser, UserModel>('User', userSchema);
+  next();
+});
+
+// the static method
+userSchema.statics.isUserExists = async function (userId: number) {
+  const existingUser = await User.findOne({ userId });
+  return existingUser;
+};
+
+// removes password field from response
+userSchema.set('toJSON', {
+  virtuals: true,
+  transform: (doc, ret) => {
+    delete ret.password;
+  },
+});
+
+// Model defination
+export const User = model<TUser, UserModel>('User', userSchema);
