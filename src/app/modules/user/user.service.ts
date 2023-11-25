@@ -106,6 +106,20 @@ const getAUserOrdersFromDB = async (userId: number) => {
   }
 };
 
+// total price
+const getTotalPriceOfOrderFromDB = async (userId: number) => {
+  if (await User.isUserExists(userId)) {
+    const result = await User.aggregate([
+      { $match: { userId: userId } },
+      { $project: { totalPrice: { $sum: '$orders.price' } } },
+    ]);
+
+    return result[0];
+  } else {
+    return null;
+  }
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
@@ -113,4 +127,5 @@ export const UserServices = {
   updateASingleUserInDB,
   deleteAUserFromDB,
   getAUserOrdersFromDB,
+  getTotalPriceOfOrderFromDB,
 };
