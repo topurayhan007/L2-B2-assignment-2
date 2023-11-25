@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import userValidationSchema from './user.validation';
 import { UserServices } from './user.service';
@@ -16,10 +17,10 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(404).json({
       status: false,
-      message: 'Error while creating user',
+      message: error.message || 'Error while creating user',
       error: {
         code: 404,
         description: 'Error while creating user',
@@ -38,10 +39,10 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: 'Users fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       status: false,
-      message: 'Error while fetching users',
+      message: error.message || 'Error while fetching users',
       error: {
         code: 400,
         description: 'Error while fetching users',
@@ -73,10 +74,10 @@ const getSingleUser = async (req: Request, res: Response) => {
         },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(404).json({
       status: false,
-      message: 'User not found',
+      message: error.message || 'User not found',
       error: {
         code: 404,
         description: 'User not found!',
@@ -85,7 +86,7 @@ const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
-// fetch single user controller
+// update a user's data controller
 const updateSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId: userId } = req.params;
@@ -115,13 +116,48 @@ const updateSingleUser = async (req: Request, res: Response) => {
         },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(404).json({
       status: false,
-      message: 'Could not update user!',
+      message: error.message || 'Could not update user!',
       error: {
         code: 404,
         description: 'Could not update user!',
+      },
+    });
+  }
+};
+
+// delete a user
+const deleteAUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.deleteAUserFromDB(parseInt(userId));
+
+    if (result !== null) {
+      res.status(200).json({
+        success: true,
+        message: 'User deleted successfully!',
+        data: null,
+      });
+    } else {
+      // User not found
+      res.status(404).json({
+        status: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+  } catch (error: any) {
+    res.status(404).json({
+      status: false,
+      message: 'Could not delete user!',
+      error: {
+        code: 404,
+        description: 'Could not delete user!',
       },
     });
   }
@@ -132,4 +168,5 @@ export const UserControllers = {
   getAllUsers,
   getSingleUser,
   updateSingleUser,
+  deleteAUser,
 };
