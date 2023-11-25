@@ -80,7 +80,7 @@ const deleteAUserFromDB = async (userId: number) => {
 };
 
 // get a user's orders
-const getAUserOrders = async (userId: number) => {
+const getAUserOrdersFromDB = async (userId: number) => {
   if (await User.isUserExists(userId)) {
     const result = await User.aggregate([
       { $match: { userId: userId } },
@@ -112,5 +112,5 @@ export const UserServices = {
   getSingleUserFromDB,
   updateASingleUserInDB,
   deleteAUserFromDB,
-  getAUserOrders,
+  getAUserOrdersFromDB,
 };

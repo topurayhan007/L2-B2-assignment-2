@@ -167,7 +167,7 @@ const deleteAUser = async (req: Request, res: Response) => {
 const getAUserOrders = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const result = await UserServices.getAUserOrders(parseInt(userId));
+    const result = await UserServices.getAUserOrdersFromDB(parseInt(userId));
 
     if (result !== null) {
       res.status(200).json({
