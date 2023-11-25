@@ -93,10 +93,17 @@ userSchema.statics.isUserExists = async function (userId: number) {
 };
 
 // removes password field from response
+// also removes other fields when creating user
 userSchema.set('toJSON', {
   virtuals: true,
   transform: (doc, ret) => {
     delete ret.password;
+    delete ret._id;
+    delete ret.fullName._id;
+    delete ret.__v;
+    delete ret.address._id;
+    delete ret.id;
+    delete ret.orders;
   },
 });
 
