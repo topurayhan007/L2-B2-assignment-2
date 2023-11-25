@@ -70,7 +70,7 @@ const userSchema = new Schema<TUser>({
   },
   hobbies: { type: [String], required: [true, 'Hobbies are required'] },
   address: { type: userAddressSchema, required: [true, 'Address is required'] },
-  orders: { type: [userOrderSchema] },
+  orders: { type: [userOrderSchema], required: [true, 'Order is required'] },
 });
 
 // Model defination
