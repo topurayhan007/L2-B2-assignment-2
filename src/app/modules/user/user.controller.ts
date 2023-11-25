@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import userValidationSchema from './user.validation';
 import { UserServices } from './user.service';
@@ -17,7 +16,7 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully!',
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(404).json({
       status: false,
       message: 'Error while creating user',
@@ -39,7 +38,7 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: 'Users fetched successfully!',
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({
       status: false,
       message: 'Error while fetching users',
@@ -74,7 +73,7 @@ const getSingleUser = async (req: Request, res: Response) => {
         },
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     res.status(404).json({
       status: false,
       message: 'User not found',
@@ -116,7 +115,7 @@ const updateSingleUser = async (req: Request, res: Response) => {
         },
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     res.status(404).json({
       status: false,
       message: 'Could not update user!',

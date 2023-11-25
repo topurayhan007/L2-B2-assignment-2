@@ -59,7 +59,9 @@ const getSingleUserFromDB = async (userId: number) => {
 // update user using Id
 const updateASingleUserInDB = async (userId: number, userData: TUser) => {
   if (await User.isUserExists(userId)) {
-    const result = await User.updateOne({ userId: userId }, { userData });
+    const result = await User.findOneAndUpdate({ userId: userId }, userData, {
+      new: true,
+    });
 
     return result;
   } else {
