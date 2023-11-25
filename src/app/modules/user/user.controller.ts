@@ -163,10 +163,46 @@ const deleteAUser = async (req: Request, res: Response) => {
   }
 };
 
+// fetch a user's orders controller
+const getAUserOrders = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.getAUserOrders(parseInt(userId));
+
+    if (result !== null) {
+      res.status(200).json({
+        success: true,
+        message: 'Order fetched successfully!',
+        data: result,
+      });
+    } else {
+      // User not found
+      res.status(404).json({
+        status: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+  } catch (error: any) {
+    res.status(404).json({
+      status: false,
+      message: error.message || 'Could not fetch order!',
+      error: {
+        code: 404,
+        description: 'Could not fetch order!',
+      },
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateSingleUser,
   deleteAUser,
+  getAUserOrders,
 };

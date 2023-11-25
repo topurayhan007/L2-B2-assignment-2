@@ -79,10 +79,38 @@ const deleteAUserFromDB = async (userId: number) => {
   }
 };
 
+// get a user's orders
+const getAUserOrders = async (userId: number) => {
+  if (await User.isUserExists(userId)) {
+    const result = await User.aggregate([
+      { $match: { userId: userId } },
+      {
+        $unset: [
+          'fullName',
+          'address',
+          '_id',
+          'hobbies',
+          'isActive',
+          'userId',
+          '__v',
+          'password',
+          'email',
+          'username',
+          'age',
+        ],
+      },
+    ]);
+    return result;
+  } else {
+    return null;
+  }
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateASingleUserInDB,
   deleteAUserFromDB,
+  getAUserOrders,
 };

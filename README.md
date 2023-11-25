@@ -19,14 +19,16 @@ Make sure you have the following installed on your computer:
 
 2. Open your code editor and locate to the cloned folder
 
+Run this command in the project directory to open VSCode
+
 ```bash (use it to open in VSCode)
-   code .
+  code .
 ```
 
 3. Now install all dependecies using the following commands
 
 ```bash
-   npm install
+  npm install
 ```
 
 ## Setup Environment Variables
@@ -47,13 +49,13 @@ Make sure you have the following installed on your computer:
 1. In the terminal run the following command
 
 ```bash
-   npm run start:dev
+  npm run start:dev
 ```
 
-Or
+Or, to run in production use this
 
 ```bash
-   npm run start:prod
+  npm run start:prod
 ```
 
 ## Vercel Deployment
