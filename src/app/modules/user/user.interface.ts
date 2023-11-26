@@ -27,7 +27,7 @@ export type TUser = {
   isActive: boolean;
   hobbies: string[];
   address: TUserAddress;
-  orders: TUserOrder[];
+  orders?: TUserOrder[];
 };
 
 // user exist using static

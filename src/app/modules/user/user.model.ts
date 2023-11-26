@@ -33,15 +33,18 @@ const userAddressSchema = new Schema<TUserAddress>({
   },
 });
 
-const userOrderSchema = new Schema<TUserOrder>({
-  productName: {
-    type: String,
-    required: [true, 'Product name is required'],
-    trim: true,
+const userOrderSchema = new Schema<TUserOrder>(
+  {
+    productName: {
+      type: String,
+      required: [true, 'Product name is required'],
+      trim: true,
+    },
+    price: { type: Number, required: [true, 'Price is required'] },
+    quantity: { type: Number, required: [true, 'Quantity is required'] },
   },
-  price: { type: Number, required: [true, 'Price is required'] },
-  quantity: { type: Number, required: [true, 'Quantity is required'] },
-});
+  { _id: false },
+);
 
 // User Schema
 const userSchema = new Schema<TUser, UserModel>({
@@ -73,7 +76,7 @@ const userSchema = new Schema<TUser, UserModel>({
   },
   hobbies: { type: [String], required: [true, 'Hobbies are required'] },
   address: { type: userAddressSchema, required: [true, 'Address is required'] },
-  orders: { type: [userOrderSchema], required: [true, 'Order is required'] },
+  orders: { type: [userOrderSchema] },
 });
 
 // middleware for password hash

@@ -38,7 +38,7 @@ const userValidationSchema = z.object({
     z.string().min(1, { message: 'Hobby should at least 1 character long' }),
   ),
   address: userAddressValidationSchema,
-  orders: z.array(userOrderValidationSchema),
+  orders: z.array(userOrderValidationSchema).optional(),
 });
 
 export { userValidationSchema, userOrderValidationSchema };
