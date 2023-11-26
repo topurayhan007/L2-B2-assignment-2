@@ -26,7 +26,10 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       status: false,
-      message: error.issues[0].message || 'Error while creating user',
+      message:
+        error?.name === 'ZodError'
+          ? error.issues[0].message
+          : 'Error while creating user',
       error: {
         code: 400,
         description: 'Error while creating user',
@@ -146,7 +149,9 @@ const updateSingleUser = async (req: Request, res: Response) => {
     res.status(400).json({
       status: false,
       message:
-        error.message || error.issues[0].message || 'Could not update user!',
+        error?.name === 'ZodError'
+          ? error.issues[0].message
+          : 'Could not update user!',
       error: {
         code: 400,
         description: 'Could not update user!',
@@ -225,7 +230,9 @@ const addAProductToOrder = async (req: Request, res: Response) => {
     res.status(400).json({
       status: false,
       message:
-        error.message || error.issues[0].message || 'Could not create order!',
+        error?.name === 'ZodError'
+          ? error.issues[0].message
+          : 'Could not create order!',
       error: {
         code: 400,
         description: 'Could not create order!',
@@ -244,7 +251,7 @@ const getAUserOrders = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'Order fetched successfully!',
-        data: result,
+        data: result[0],
       });
     } else {
       // User not found

@@ -37,11 +37,11 @@ const userOrderSchema = new Schema<TUserOrder>(
   {
     productName: {
       type: String,
-      required: [true, 'Product name is required'],
+      required: true,
       trim: true,
     },
-    price: { type: Number, required: [true, 'Price is required'] },
-    quantity: { type: Number, required: [true, 'Quantity is required'] },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
   },
   { _id: false },
 );
@@ -50,32 +50,32 @@ const userOrderSchema = new Schema<TUserOrder>(
 const userSchema = new Schema<TUser, UserModel>({
   userId: {
     type: Number,
-    required: [true, 'User ID is required'],
+    required: true,
     unique: true,
     trim: true,
   },
   username: {
     type: String,
-    required: [true, 'Username is required'],
+    required: true,
     unique: true,
     trim: true,
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
-    minlength: [8, 'Password must be at least 8 characters.'],
-    maxlength: [20, 'Password should not be longer than 20 characters.'],
+    required: true,
+    minlength: 8,
+    maxlength: 20,
   },
   fullName: userFullNameSchema,
-  age: { type: Number, required: [true, 'Age is required'] },
-  email: { type: String, required: [true, 'Email is required'], trim: true },
+  age: { type: Number, required: true },
+  email: { type: String, required: true, trim: true },
   isActive: {
     type: Boolean,
-    required: [true, 'Active status is required'],
+    required: true,
     default: true,
   },
-  hobbies: { type: [String], required: [true, 'Hobbies are required'] },
-  address: { type: userAddressSchema, required: [true, 'Address is required'] },
+  hobbies: { type: [String], required: true },
+  address: { type: userAddressSchema, required: true },
   orders: { type: [userOrderSchema] },
 });
 

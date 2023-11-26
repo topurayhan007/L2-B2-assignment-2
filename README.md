@@ -21,15 +21,15 @@ Make sure you have the following installed on your computer:
 
 Run this command in the project directory to open VSCode
 
-```bash (use it to open in VSCode)
-  code .
-```
+  ```bash (use it to open in VSCode)
+    code .
+  ```
 
 3. Now install all dependecies using the following commands
 
-```bash
-  npm install
-```
+  ```bash
+    npm install
+  ```
 
 ## Setup Environment Variables
 
@@ -37,26 +37,26 @@ Run this command in the project directory to open VSCode
 
 2. Inside the `.env` file paste these and replace with your environment variables
 
-```bash
-  NODE_ENV=your_node_environment_development_or_production
-  PORT=your_port_number
-  DATABASE_URL=your_mongodb_url
-  BCRYPT_SALT_ROUNDS=your_numeric_salt_rounds_number
-```
+  ```bash
+    NODE_ENV=your_node_environment_development_or_production
+    PORT=your_port_number
+    DATABASE_URL=your_mongodb_url
+    BCRYPT_SALT_ROUNDS=your_numeric_salt_rounds_number
+  ```
 
 ## Run The Application
 
 1. In the terminal run the following command
 
-```bash
-  npm run start:dev
-```
+  ```bash
+    npm run start:dev
+  ```
 
 Or, to run in production use this
 
-```bash
-  npm run start:prod
-```
+  ```bash
+    npm run start:prod
+  ```
 
 ## Vercel Deployment
 
