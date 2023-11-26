@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import userValidationSchema from './user.validation';
+import {
+  userValidationSchema,
+  userOrderValidationSchema,
+} from './user.validation';
 import { UserServices } from './user.service';
 
 // create a user controller
@@ -235,6 +238,47 @@ const getTotalPriceOfOrder = async (req: Request, res: Response) => {
   }
 };
 
+const addAProductToOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const { product: productData } = req.body;
+
+    const zodParsedData = userOrderValidationSchema.parse(productData);
+
+    const result = await UserServices.addAProductToOrderIntoDB(
+      parseInt(userId),
+      zodParsedData,
+    );
+
+    if (result !== null) {
+      res.status(200).json({
+        success: true,
+        message: 'Order created successfully!',
+        data: null,
+      });
+    } else {
+      // User not found
+      res.status(404).json({
+        status: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    }
+  } catch (error: any) {
+    res.status(404).json({
+      status: false,
+      message: 'Could not create order!',
+      error: {
+        code: 404,
+        description: 'Could not create order!',
+      },
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
@@ -243,4 +287,5 @@ export const UserControllers = {
   deleteAUser,
   getAUserOrders,
   getTotalPriceOfOrder,
+  addAProductToOrder,
 };

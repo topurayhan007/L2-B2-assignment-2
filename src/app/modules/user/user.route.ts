@@ -13,6 +13,8 @@ router.put('/:userId', UserControllers.updateSingleUser);
 
 router.delete('/:userId', UserControllers.deleteAUser);
 
+router.post('/:userId/orders', UserControllers.addAProductToOrder);
+
 router.get('/:userId/orders', UserControllers.getAUserOrders);
 
 router.get('/:userId/orders/total-price', UserControllers.getTotalPriceOfOrder);

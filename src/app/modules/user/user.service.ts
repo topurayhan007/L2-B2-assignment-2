@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TUser, TUserOrder } from './user.interface';
 import { User } from './user.model';
 
 // create a user
@@ -79,6 +79,22 @@ const deleteAUserFromDB = async (userId: number) => {
   }
 };
 
+// add product
+const addAProductToOrderIntoDB = async (
+  userId: number,
+  productData: TUserOrder,
+) => {
+  if (await User.isUserExists(userId)) {
+    const result = await User.findOneAndUpdate(
+      { userId: userId },
+      { $push: { orders: productData } },
+    );
+    return result;
+  } else {
+    return null;
+  }
+};
+
 // get a user's orders
 const getAUserOrdersFromDB = async (userId: number) => {
   if (await User.isUserExists(userId)) {
@@ -111,7 +127,16 @@ const getTotalPriceOfOrderFromDB = async (userId: number) => {
   if (await User.isUserExists(userId)) {
     const result = await User.aggregate([
       { $match: { userId: userId } },
-      { $project: { totalPrice: { $sum: '$orders.price' }, _id: 0 } },
+      { $unwind: '$orders' },
+      {
+        $group: {
+          _id: null,
+          totalPrice: {
+            $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+          },
+        },
+      },
+      { $project: { _id: 0 } },
     ]);
 
     return result[0];
@@ -128,4 +153,5 @@ export const UserServices = {
   deleteAUserFromDB,
   getAUserOrdersFromDB,
   getTotalPriceOfOrderFromDB,
+  addAProductToOrderIntoDB,
 };
